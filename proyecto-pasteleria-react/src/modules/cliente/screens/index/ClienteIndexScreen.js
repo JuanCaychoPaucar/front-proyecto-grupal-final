@@ -1,10 +1,12 @@
 import React from 'react'
+import ClienteHeaderIndex from '../../components/ClienteHeaderIndex'
 
 const ClienteIndexScreen = () => {
     return (
-        <div>
+        <>
+            <ClienteHeaderIndex />
             CLIENTE INDEX SCREEN
-        </div>
+        </>
     )
 }
 
