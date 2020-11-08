@@ -48,7 +48,7 @@
 }
 
 .section-bottom-fondo {
-  /* background-image: url(../img/fondo_ofertas_dia_transparente.png); */
+  background-image: url(../../../../assets/img/fondo_ofertas_dia_transparente.png);
   background-repeat: repeat;
   opacity: 0.1;
   height: 100%;

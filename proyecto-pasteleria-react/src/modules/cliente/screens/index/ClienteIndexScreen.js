@@ -1,6 +1,7 @@
 import React from 'react'
 import ClienteCarruselIndex from '../../components/ClienteCarruselIndex';
 import ClienteHeaderIndex from '../../components/ClienteHeaderIndex';
+import ClienteOfertasDiaIndex from '../../components/ClienteOfertasDiaIndex';
 
 import "./ClienteIndexScreen.css";
 
@@ -11,6 +12,10 @@ const ClienteIndexScreen = () => {
             <main>
                 <section className="section-top">
                     <ClienteCarruselIndex />
+                </section>
+
+                <section className="section-bottom">
+                    <ClienteOfertasDiaIndex />
                 </section>
             </main>
             CLIENTE INDEX SCREEN
