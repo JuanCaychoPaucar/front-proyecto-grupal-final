@@ -2,12 +2,12 @@ import React from 'react';
 import { Button, Form, FormControl, Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
-import "./ClienteHeaderIndex.css";
-import logo from "./../../../assets/img/logo_transparente.png";
+import "./ClienteHeader.css";
+import logo from "./../assets/img/logo_transparente.png";
 
-const ClienteHeaderIndex = () => {
+const ClienteHeader = () => {
     return (
-        <header>
+        <header className="header-2">
             <Navbar className="p-0 contenedor__navbar" collapseOnSelect expand="md">
 
                 <Navbar.Brand className="p-0" href="#home">
@@ -45,9 +45,10 @@ const ClienteHeaderIndex = () => {
                 </Navbar.Collapse>
 
             </Navbar>
-        </header>
 
+            <h2 className="text-center">PRODUCTOS</h2>
+        </header>
     )
 }
 
-export default ClienteHeaderIndex;
+export default ClienteHeader;
