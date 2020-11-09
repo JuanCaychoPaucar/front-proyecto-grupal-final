@@ -4,13 +4,13 @@ import ClienteOfertasDiaCardIndex from './ClienteOfertasDiaCardIndex';
 const ClienteOfertasDiaIndex = () => {
     return (
         <>
-            <div class="section-bottom-fondo"></div>
+            <div className="section-bottom-fondo"></div>
 
-            <div class="section-bottom-titulo">
-                <h3 class="">Ofertas del día</h3>
+            <div className="section-bottom-titulo">
+                <h3 className="">Ofertas del día</h3>
             </div>
             
-            <div class="section-bottom-ofertas row">
+            <div className="section-bottom-ofertas row">
                 <ClienteOfertasDiaCardIndex/>
                 <ClienteOfertasDiaCardIndex/>
                 <ClienteOfertasDiaCardIndex/>
