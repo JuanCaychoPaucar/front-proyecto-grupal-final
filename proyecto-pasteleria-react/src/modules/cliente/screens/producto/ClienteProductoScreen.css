@@ -1,0 +1,80 @@
+.productos {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.productos__filtro {
+  width: 250px;
+  margin-right: 64px;
+  margin-bottom: 50px;
+  /* border: 1px solid red; */
+}
+
+.productos__filtro-formulario {
+  color: var(--marron-1);
+  padding-left: 20px;
+}
+
+.productos__filtro-formulario > label {
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.productos__filtro-formulario > div {
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.productos__filtro-formulario > div > input {
+  margin-right: 15px;
+  position: relative;
+}
+
+input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  margin-top: 0px;
+}
+
+.productos__lista {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  /* border: 1px solid blue; */
+}
+
+.productos__card {
+  width: 262px;
+  margin-bottom: 26px;
+}
+
+.productos__card-img {
+  overflow: hidden;
+  height: 170px;
+}
+
+hr {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  height: 1px;
+  border-width: 0;
+  background-color: var(--marron-1);
+}
+
+.productos__filtro-formulario > p {
+  margin-top: 20px;
+}
+
+/* color del rango de precios. Reemplaza el original de bootstrap */
+.slider-handle {
+  background: var(--oliva);
+}
+
+.slider-selection {
+  background: var(--oliva);
+}
