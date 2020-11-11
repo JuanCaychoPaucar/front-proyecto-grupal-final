@@ -7,9 +7,10 @@ import ClienteListaFormCheckProducto from '../../components/ClienteListaFormChec
 import "./ClienteProductoScreen.css";
 
 const ClienteProductoScreen = () => {
+    
     return (
         <>
-            <ClienteHeader />
+            <ClienteHeader pagina="PRODUCTOS"/>
 
             <main className="productos">
                 <ClienteAsideFiltroFormCheckProducto />
