@@ -2,47 +2,47 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Button, Carousel } from 'react-bootstrap';
+import { getCategorias } from '../../../services/categoriaService';
 import { arregloSinRepetir } from '../../../services/numerosAleatorios';
-import { getProductoById } from '../../../services/productoService';
+import { getProductoById, getProductos } from '../../../services/productoService';
 
 import logo from "./../../../assets/img/logo_transparente.png";
 
-const ClienteCarruselIndex = () => {
+const ClienteCarruselIndex = ({ arregloProductos, arregloCategorias }) => {
+
+    // console.log(arregloProductos);
+    // console.log(arregloCategorias);
 
     // generamos un arreglo de 5 numeros aleatorios no repetidos
     const [aleatorio, setAleatorio] = useState(arregloSinRepetir(5));
     const [slider, setSlider] = useState([]);
-    const [estado, setEstado] = useState(false);
 
-    const getProductosAleatorioAsync = async () => {
-        let objetos = [];
+    const getAllProductos = async () => {
 
-        let numeros = aleatorio;
-        // for (let i = 0; i < numeros.length; i++) {
-        //     let peticion = await getProductoById(numeros[i]);
-        //     console.log(peticion);
-        //     let obj = await peticion.json();
-        //     objetos.push(obj);
-        // }
+        // mapeo del arreglo de indices (aleatorio) que coincidan con el indice del objProductos
+        const filtradoProductos = aleatorio.map((item) => arregloProductos[item - 1]);
 
-        for (let i = 0; i < numeros.length; i++) {
-            let data = await getProductoById(numeros[i]);
-            if (data !== null) {
-                objetos.push(data);
-            }
+        let temporal = [];
+
+        for (let i = 0; i < arregloCategorias.length; i++) {
+            const resultado = filtradoProductos.filter((pro) => {
+                if (pro.categoria_id == arregloCategorias[i].categoria_id) {
+                    let obj = { ...pro, categoria_nombre: arregloCategorias[i].categoria_nom }
+                    temporal.push(obj);
+                }
+            });
+
         }
 
-        return objetos;
+        setSlider(temporal);
+        // console.log("tempral");
+        // console.log(temporal);
+
     };
 
     useEffect(() => {
-        getProductosAleatorioAsync().then(data => {
-            // console.log(data);
-            setSlider(data);
-            // setEstado(true);
-            console.log(data);
-        });
-    }, []);
+        getAllProductos();
+    }, [arregloProductos, arregloCategorias]);
 
 
     return (
