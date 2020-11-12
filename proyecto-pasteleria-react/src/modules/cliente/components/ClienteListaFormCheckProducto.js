@@ -2,6 +2,9 @@ import React from 'react';
 import ClienteListaCardFormCheckProducto from './ClienteListaCardFormCheckProducto';
 
 const ClienteListaFormCheckProducto = ({ productoCategoria }) => {
+    console.log("producto categoria");
+    console.log(productoCategoria);
+    
     return (
         <div className="productos__lista">
             {

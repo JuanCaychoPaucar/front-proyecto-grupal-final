@@ -11,8 +11,12 @@ import "./ClienteProductoScreen.css";
 const ClienteProductoScreen = () => {
 
     const [productoCategoria, setProductoCategoria] = useState([]);
+    const [productoCategoriaGlobal, setProductoCategoriaGlobal] = useState([]);
     const [categorias, setCategorias] = useState([]);
 
+    const [arregloFiltro, setArregloFiltro] = useState([]);
+
+    // FUNCION QUE TRAE TODOS LOS PRODUCTOS Y SUS CATEGORIAS
     const getAllProductos = async () => {
 
         let objProductos = [];
@@ -38,22 +42,66 @@ const ClienteProductoScreen = () => {
         }
 
         setProductoCategoria(temporal);
+        setProductoCategoriaGlobal(temporal);
         setCategorias(objCategorias);
+
         // console.log(temporal);
         // console.log(objCategorias);
 
     };
 
+    // FUNCION QUE FILTRA POR CATEGORIAS
+    const filtradoCategorias = (arreglo) => {
+
+        let temporal = [];
+
+        for (let i = 0; i < arreglo.length; i++) {
+            const resultado = productoCategoriaGlobal.filter((pro) => {
+                if (pro.categoria_id == arreglo[i]) {
+                    let obj = { ...pro }
+                    temporal.push(obj);
+                }
+            });
+        }
+
+        return temporal;
+    };
+
+    // FUNCION QUE SETEA PRODUCTO CATEGORIA
+    const modificarProductoCategoria = (nuevo) => {
+        if (nuevo.length == 0) {
+            setProductoCategoria(productoCategoriaGlobal);
+        } else {
+            setProductoCategoria(nuevo);
+        }
+
+    };
+
+    //ARREGLO FILTRO
+    const arregloFiltrado = (valor) => {
+        setArregloFiltro(valor)
+        console.log("set arreglo filtro");
+        console.log(arregloFiltro);
+    };
+
+
+
+    // LLAMADO A FUNCIONES
+
     useEffect(() => {
         getAllProductos();
     }, []);
+
+    useEffect(() => {
+
+    }, [productoCategoria]);
 
     return (
         <>
             <ClienteHeader pagina="PRODUCTOS" />
 
             <main className="productos">
-                <ClienteAsideFiltroFormCheckProducto categorias={categorias} />
+                <ClienteAsideFiltroFormCheckProducto categorias={categorias} filtradoCategorias={filtradoCategorias} modificarProductoCategoria={modificarProductoCategoria} arregloFiltrado={arregloFiltrado} arregloFiltro={arregloFiltro} />
 
                 <ClienteListaFormCheckProducto productoCategoria={productoCategoria} />
             </main>
