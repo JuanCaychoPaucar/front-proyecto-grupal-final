@@ -4,32 +4,94 @@ import { getProductos } from '../../../services/productoService';
 import ClienteContext from './ClienteContext';
 import ClienteReducer from './ClienteReducer';
 
+// item del objeto producto
+const productoItems = {
+    "producto_id": 1,
+    "categoria_id": 1,
+    "categoria_nombre": "categoria nombre",
+    "producto_nom": "producto_nom post",
+    "producto_pre": 120,
+    "producto_img": "producto_img post",
+    "producto_estado": true
+};
+
+// items del arreglo de pedidos
+const pedido = [
+    {
+        "producto_id": 1,
+        "categoria_id": 1,
+        "categoria_nombre": "categoria nombre",
+        "producto_nom": "producto_nom post",
+        "producto_pre": 120,
+        "producto_img": "producto_img post",
+        "producto_estado": true,
+
+        "cantidad": 123,
+        "monto": 123,
+    }
+];
+
+
+
 const ClienteState = (props) => {
 
     const [state, dispatch] = useReducer(ClienteReducer, {
-        globalObjProductos: null,
-        globalObjCategorias: null,
+        globalPedidos: [],
     });
 
-    // OBTENER LA LISTA DE TODOS LOS PRODUCTOS Y CATEGORIAS, LUEGO ASOCIARLOS
-    const traerProductosAndCategorias = async () => {
-        const { globalObjProductos, globalObjCategorias } = state;
+    // CARRITO: AGREGAR PRODUCTO
+    const agregarProducto = (objProducto) => {
 
-        // verificar que los objetos globales no esten vacios
-        // if(globalObjProductos.lenght )
+        // desestructurando state
+        const { globalPedidos } = state;
 
+        // verificar si existe un pedido para el producto seleccionado
+        const pedidoActual = globalPedidos.find(objPedido => objPedido.producto_id === objProducto.producto_id);
+        console.log(pedidoActual);
 
+        // preguntamos si el pedido actual existe, es decir, que la mesa global seleccionada tenga un pedido previamnete en nuestro arreglo "globalPedidos"
+        if (pedidoActual) {
+            // ya existia el producto en el arreglo de pedidos: globalPedidos
+            const modificarPedido = globalPedidos.map(objPedido => {
+                if (objPedido.producto_id === objProducto.producto_id) {
+                    return {
+                        ...objProducto,
+                    }
+                }
+                return {
+                    ...objPedido,
+                }
+            });
 
+            dispatch({
+                type: "ACTUALIZAR_GLOBAL_PEDIDOS",
+                data: modificarPedido,
+            });
 
+        } else {
+            // No exisitia el producto en el arreglo de pedidos: globalPedidos
+            // Por tanto, debemos de crear el pedido nuevo, en el arreglo global de pedidos
+            const nuevoGlobalPedidos = [
+                ...globalPedidos,
+                {
+                    ...objProducto,
+                },
+            ];
 
+            dispatch({
+                type: "ACTUALIZAR_GLOBAL_PEDIDOS",
+                data: nuevoGlobalPedidos,
+            });
+
+        }
 
     };
 
 
     return (
         <ClienteContext.Provider value={{
-            globalObjProductos: state.globalObjProductos,
-            globalObjCategorias: state.globalObjCategorias,
+            globalPedidos: state.globalPedidos,
+            agregarProducto: agregarProducto,
         }}>
             {props.children}
         </ClienteContext.Provider>

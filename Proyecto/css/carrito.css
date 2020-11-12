@@ -48,14 +48,26 @@
   border-radius: 5px;
 }
 
-.boton-cantidad {
+.boton-cantidad-left {
   flex: 1;
-  border: 1px solid transparent;
+  border: none;
+  border-right: 1px solid black;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  background-color: var(--salmon);
+  outline: none;
+}
+
+.boton-cantidad-right {
+  flex: 1;
+  border: none;
   border-left: 1px solid black;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   background-color: var(--salmon);
+  outline: none;
 }
+
 
 .cantidad span {
   flex: 2;

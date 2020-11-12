@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ClienteFooter from '../../../../components/ClienteFooter';
 import ClienteHeader from '../../../../components/ClienteHeader';
+import ClientePaginacion from '../../../../components/ClientePaginacion';
 import { getCategorias } from '../../../../services/categoriaService';
 import { getProductos } from '../../../../services/productoService';
 import ClienteAsideFiltroFormCheckProducto from '../../components/ClienteAsideFiltroFormCheckProducto';
@@ -104,9 +105,11 @@ const ClienteProductoScreen = () => {
                 <ClienteAsideFiltroFormCheckProducto categorias={categorias} filtradoCategorias={filtradoCategorias} modificarProductoCategoria={modificarProductoCategoria} arregloFiltrado={arregloFiltrado} arregloFiltro={arregloFiltro} />
 
                 <ClienteListaFormCheckProducto productoCategoria={productoCategoria} />
+
             </main>
 
             {/* PENDIENTE COLOCAR PAGINACION */}
+            {/* <ClientePaginacion /> */}
 
             <ClienteFooter />
         </>

@@ -49,8 +49,43 @@ input[type="checkbox"] {
 }
 
 .productos__card {
+  position: relative;
+  z-index: 1;
   width: 262px;
+  height: 285px;
   margin-bottom: 26px;
+}
+
+.productos__card-hide {
+  z-index: 5;
+  display: none;
+  flex-direction: column;
+}
+
+.card.productos__card:hover .productos__card-hide {
+  position: absolute;
+  display: block;
+  width: 262px;
+  height: 285px;
+  background-color: rgb(196, 196, 196, 67%);
+}
+
+.contenedor-boton-cantidad{
+  margin-top: 66px;
+  margin-bottom: 36px;
+}
+
+.agregar__carrito{
+  text-align: center;
+}
+
+.agregar__carrito-boton{
+  width: 136px;
+  height: 36px;
+  background-color: var(--naranja);
+  border: none;
+  outline: none;
+  color: var(--blanco);
 }
 
 .productos__card-img {

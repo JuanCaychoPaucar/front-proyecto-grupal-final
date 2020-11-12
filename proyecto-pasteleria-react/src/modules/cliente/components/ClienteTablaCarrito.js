@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import ClienteContext from '../context/ClienteContext';
 import ClienteTablaItemCarrito from './ClienteTablaItemCarrito';
 
 const ClienteTablaCarrito = () => {
+
+    const { globalPedidos } = useContext(ClienteContext);
+
+    console.log(globalPedidos);
+
     return (
         <table className="table table-striped text-center info-tabla">
             <thead className="info-tabla-cabecera">
@@ -17,11 +23,11 @@ const ClienteTablaCarrito = () => {
 
             <tbody className="info-tabla-cuerpo">
 
-                <ClienteTablaItemCarrito />
-                <ClienteTablaItemCarrito />
-                <ClienteTablaItemCarrito />
-                <ClienteTablaItemCarrito />
-                <ClienteTablaItemCarrito />
+                {
+                    globalPedidos.map(pedido => {
+                        return <ClienteTablaItemCarrito key={pedido.producto_id} pedido={pedido} />
+                    })
+                }
 
             </tbody>
         </table>

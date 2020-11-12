@@ -29,17 +29,17 @@ const ClienteFiltroFormCheckProducto = ({ categoria, filtradoCategorias, modific
             }
         }
 
-        console.log("arreglo filtro");
-        console.log(arregloFiltro);
+        // console.log("arreglo filtro");
+        // console.log(arregloFiltro);
 
-        console.log("temporal");
-        console.log(temporal);
+        // console.log("temporal");
+        // console.log(temporal);
 
         arregloFiltrado(temporal);
         let nuevo = filtradoCategorias(temporal);
 
-        console.log("nuevo");
-        console.log(nuevo);
+        // console.log("nuevo");
+        // console.log(nuevo);
         modificarProductoCategoria(nuevo);
 
     };
