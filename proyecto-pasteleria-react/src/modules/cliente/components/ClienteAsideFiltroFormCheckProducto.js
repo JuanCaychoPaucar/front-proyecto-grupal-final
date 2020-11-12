@@ -1,18 +1,17 @@
 import React from 'react';
 import ClienteFiltroFormCheckProducto from './ClienteFiltroFormCheckProducto';
 
-const ClienteAsideFiltroFormCheckProducto = () => {
+const ClienteAsideFiltroFormCheckProducto = ({ categorias, filtradoCategorias, modificarProductoCategoria, arregloFiltrado, arregloFiltro }) => {
     return (
         <aside className="productos__filtro">
             <form className="productos__filtro-formulario">
                 <label htmlFor="">CATEGORIAS</label>
-                <ClienteFiltroFormCheckProducto />
-                <ClienteFiltroFormCheckProducto />
-                <ClienteFiltroFormCheckProducto />
-                <ClienteFiltroFormCheckProducto />
-                <ClienteFiltroFormCheckProducto />
-                <ClienteFiltroFormCheckProducto />
-                <ClienteFiltroFormCheckProducto />
+                {
+                    categorias.map(categoria => {
+                        return <ClienteFiltroFormCheckProducto key={categoria.categoria_id} categoria={categoria} filtradoCategorias={filtradoCategorias} modificarProductoCategoria={modificarProductoCategoria} arregloFiltrado={arregloFiltrado} arregloFiltro={arregloFiltro}/>
+                    })
+                }
+
             </form>
 
             <hr />

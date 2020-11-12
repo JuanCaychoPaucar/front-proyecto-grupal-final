@@ -1,25 +1,18 @@
 import React from 'react';
 import ClienteListaCardFormCheckProducto from './ClienteListaCardFormCheckProducto';
 
-const ClienteListaFormCheckProducto = () => {
+const ClienteListaFormCheckProducto = ({ productoCategoria }) => {
+    console.log("producto categoria");
+    console.log(productoCategoria);
+    
     return (
         <div className="productos__lista">
-            <ClienteListaCardFormCheckProducto />
-            <ClienteListaCardFormCheckProducto />
-            <ClienteListaCardFormCheckProducto />
-            <ClienteListaCardFormCheckProducto />
-            <ClienteListaCardFormCheckProducto />
-            <ClienteListaCardFormCheckProducto />
-            <ClienteListaCardFormCheckProducto />
-            <ClienteListaCardFormCheckProducto />
-            <ClienteListaCardFormCheckProducto />
-            <ClienteListaCardFormCheckProducto />
-            <ClienteListaCardFormCheckProducto />
-            <ClienteListaCardFormCheckProducto />
-            <ClienteListaCardFormCheckProducto />
-            <ClienteListaCardFormCheckProducto />
-            <ClienteListaCardFormCheckProducto />
-            <ClienteListaCardFormCheckProducto />
+            {
+                productoCategoria.map(proCat => {
+                    return <ClienteListaCardFormCheckProducto key={proCat.producto_id} proCat={proCat} />
+                })
+            }
+            {/* <ClienteListaCardFormCheckProducto /> */}
         </div>
     )
 }

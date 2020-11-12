@@ -5,7 +5,8 @@ import { NavLink } from "react-router-dom";
 import "./ClienteHeader.css";
 import logo from "./../assets/img/logo_transparente.png";
 
-const ClienteHeader = () => {
+const ClienteHeader = ({ pagina }) => {
+
     return (
         <header className="header-2">
             <Navbar className="p-0 contenedor__navbar" collapseOnSelect expand="md">
@@ -23,7 +24,7 @@ const ClienteHeader = () => {
                 <Navbar.Collapse id="responsive-navbar-nav contenedor__navbar-colapsado">
                     <Nav className="mr-auto mt-2 mt-lg-0 contenedor__navbar-colapsado-nav">
                         <NavLink className="nav-link item-enlace" activeClassName="active" to={"/"} ><span className="item-enlace-texto">INICIO</span></NavLink>
-                        <NavLink className="nav-link item-enlace" activeClassName="active" to={"/"} ><span className="item-enlace-texto">PRODUCTOS</span></NavLink>
+                        <NavLink className="nav-link item-enlace" activeClassName="active" to={"/productos"} ><span className="item-enlace-texto">PRODUCTOS</span></NavLink>
                         <NavLink className="nav-link item-enlace" activeClassName="active" to={"/"} ><span className="item-enlace-texto">NOSOTROS</span></NavLink>
                         <NavLink className="nav-link item-enlace" activeClassName="active" to={"/"} ><span className="item-enlace-texto">CONTACTO</span></NavLink>
 
@@ -36,17 +37,17 @@ const ClienteHeader = () => {
                             </Form>
                         </Nav.Link>
 
-                        <Nav.Link className="item-enlace item-carrito">
+                        <NavLink className="item-enlace item-carrito nav-link" to={"/carrito"}>
                             <div>
                                 <i className="fas fa-shopping-cart mr-3"></i>
                             </div>
-                        </Nav.Link>
+                        </NavLink>
                     </Nav>
                 </Navbar.Collapse>
 
             </Navbar>
 
-            <h2 className="text-center">PRODUCTOS</h2>
+            <h2 className="text-center">{pagina}</h2>
         </header>
     )
 }

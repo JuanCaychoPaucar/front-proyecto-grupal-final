@@ -1,77 +1,92 @@
 import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import { Button, Carousel } from 'react-bootstrap';
+import { getCategorias } from '../../../services/categoriaService';
+import { arregloSinRepetir } from '../../../services/numerosAleatorios';
+import { getProductoById, getProductos } from '../../../services/productoService';
 
-// reemplazar estas imagenes con las almacenadas en mockapi.
-import carrusel_1 from "./../../../assets/img/carrusel-1.png";
-import carrusel_2 from "./../../../assets/img/carrusel-2.png";
-import carrusel_3 from "./../../../assets/img/carrusel-3.png";
+import logo from "./../../../assets/img/logo_transparente.png";
 
+const ClienteCarruselIndex = ({ arregloProductos, arregloCategorias }) => {
 
-const ClienteCarruselIndex = () => {
+    // console.log(arregloProductos);
+    // console.log(arregloCategorias);
+
+    // generamos un arreglo de 5 numeros aleatorios no repetidos
+    const [aleatorio, setAleatorio] = useState(arregloSinRepetir(5));
+    const [slider, setSlider] = useState([]);
+
+    const getAllProductos = async () => {
+
+        // mapeo del arreglo de indices (aleatorio) que coincidan con el indice del objProductos
+        const filtradoProductos = aleatorio.map((item) => arregloProductos[item - 1]);
+
+        let temporal = [];
+
+        for (let i = 0; i < arregloCategorias.length; i++) {
+            const resultado = filtradoProductos.filter((pro) => {
+                if (pro.categoria_id == arregloCategorias[i].categoria_id) {
+                    let obj = { ...pro, categoria_nombre: arregloCategorias[i].categoria_nom }
+                    temporal.push(obj);
+                }
+            });
+
+        }
+
+        setSlider(temporal);
+        // console.log("tempral");
+        // console.log(temporal);
+
+    };
+
+    useEffect(() => {
+        getAllProductos();
+    }, [arregloProductos, arregloCategorias]);
+
 
     return (
         <>
-            <Carousel
-                prevIcon={<span className="carousel-control-next-icon carrusel-flecha"><i className="fas fa-chevron-left"></i></span>}
-                nextIcon={<span className="carousel-control-next-icon carrusel-flecha"><i className="fas fa-chevron-right"></i></span>}
-            >
-
-                {/* CODIGO PARA REALIZAR EL MAPEO CON IMAGENES DE MOCKAPI */}
-                {/* {
-                    this.items.map(item => {
-                        <Carousel.Item>
+            {
+                slider.length === 0 ?
+                    <Carousel
+                        className="carrusel"
+                        fade={true}
+                        prevIcon={<span className="carousel-control-next-icon carrusel-flecha"><i className="fas fa-chevron-left"></i></span>}
+                        nextIcon={<span className="carousel-control-next-icon carrusel-flecha"><i className="fas fa-chevron-right"></i></span>}
+                    >
+                        <Carousel.Item className="w-100">
                             <img
-                                className="d-block w-100"
-                                src={carrusel_1}
-                                alt="First slide"
+                                className="d-block w-100 slider-producto"
+                                src={logo}
+                                alt="Fourth slide"
                             />
-                            <Carousel.Caption>
-                                <h3>First slide label</h3>
-                                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                            </Carousel.Caption>
                         </Carousel.Item>
-                    })
-                } */}
 
-                <Carousel.Item>
-                    <img
-                        className="d-block w-100"
-                        src={carrusel_1}
-                        alt="First slide"
-                    />
-                    <Carousel.Caption>
-                        <h3>First slide label</h3>
-                        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                    </Carousel.Caption>
-                </Carousel.Item>
+                    </Carousel>
+                    :
+                    <Carousel fade={true}
+                        prevIcon={<span className="carousel-control-next-icon carrusel-flecha"><i className="fas fa-chevron-left"></i></span>}
+                        nextIcon={<span className="carousel-control-next-icon carrusel-flecha"><i className="fas fa-chevron-right"></i></span>}
+                    >
 
-                <Carousel.Item>
-                    <img
-                        className="d-block w-100"
-                        src={carrusel_2}
-                        alt="Third slide"
-                    />
+                        {
+                            slider.map(item => {
+                                return <Carousel.Item key={item.producto_id}>
+                                    <img
+                                        className="d-block w-100 slider-producto"
+                                        src={item.producto_img}
+                                        alt="First slide"
+                                    />
+                                    <Carousel.Caption>
+                                        <h3 className="bg-dark">{item.producto_nom}</h3>
+                                    </Carousel.Caption>
+                                </Carousel.Item>
+                            })
+                        }
 
-                    <Carousel.Caption>
-                        <h3>Second slide label</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-
-                <Carousel.Item>
-                    <img
-                        className="d-block w-100"
-                        src={carrusel_3}
-                        alt="Third slide"
-                    />
-
-                    <Carousel.Caption>
-                        <h3>Third slide label</h3>
-                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-
-            </Carousel>
+                    </Carousel>
+            }
 
             <Button className="boton-ordenar">ORDENAR AHORA</Button>
         </>
