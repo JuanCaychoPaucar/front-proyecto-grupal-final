@@ -37,6 +37,7 @@ const ClienteTablaItemCarrito = ({ pedido }) => {
             actualizarC(pedido.cantidad);
         }
         console.log(pedidoExistente);
+        
     };
 
     useEffect(() => {

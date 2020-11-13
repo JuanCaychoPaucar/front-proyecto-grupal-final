@@ -12,6 +12,11 @@ const ClienteReducer = (stateActual, action) => {
             return {
                 globalPedidos: action.data,
             }
+
+        case "FINALIZAR_PEDIDO":
+            return {
+                globalPedidos: [...action.data],
+            }
     }
 };
 

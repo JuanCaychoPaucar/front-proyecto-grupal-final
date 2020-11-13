@@ -3,6 +3,9 @@ import { getCategorias } from '../../../services/categoriaService';
 import { getProductos } from '../../../services/productoService';
 import ClienteContext from './ClienteContext';
 import ClienteReducer from './ClienteReducer';
+import moment from "moment";
+import { postPedido } from '../../../services/pedidoService';
+import { postPedidoProducto } from '../../../services/pedidoproductoService';
 
 // item del objeto producto
 const productoItems = {
@@ -16,7 +19,7 @@ const productoItems = {
 };
 
 // items del arreglo de pedidos
-const pedido = [
+const arregloPedido = [
     {
         "producto_id": 1,
         "categoria_id": 1,
@@ -30,6 +33,20 @@ const pedido = [
         "monto": 123,
     }
 ];
+
+// tabla pedido
+const pedido = {
+    "pedido_id": "1",
+    "cliente_id": 1,
+    "pedido_fecha": moment().format("YYYY-MM-DD HH:mm:ss"),
+    "pedido_monto": 87,
+    "pedido_pagado": false,
+    "pedido_insumo": false,
+    "pedido_preparacion": false,
+    "pedido_terminado": false,
+    "pedido_despacho": false,
+    "pedido_entregado": false
+}
 
 
 
@@ -116,12 +133,95 @@ const ClienteState = (props) => {
     };
 
 
+    // FINALIZAR PEDIDO
+    const finalizarPedido = () => {
+
+        const { globalPedidos } = state;
+
+        let monto = 0;
+
+        globalPedidos.map(pedido => {
+            monto = monto + pedido.monto;
+        });
+
+        let objPedido = {
+            cliente_id: 1,
+            pedido_fecha: moment().format("YYYY-MM-DD HH:mm:ss"),
+            pedido_monto: monto,
+            pedido_pagado: true,
+            pedido_insumo: false,
+            pedido_preparacion: false,
+            pedido_terminado: false,
+            pedido_despacho: false,
+            pedido_entregado: false
+        };
+
+
+        let pedidoProductoItems = globalPedidos.map(pedido => {
+            return {
+                producto_id: pedido.producto_id,
+                cantidad: pedido.cantidad,
+                precio: pedido.producto_pre,
+                monto: pedido.monto,
+            }
+        });
+
+
+        let objPedidoProducto = {
+            pedido_id: 2,
+            pedidoproducto_items: [...pedidoProductoItems],
+        }
+
+        console.log("objeto pedido producto");
+        console.log(objPedidoProducto);
+
+
+        postPedido(objPedido).then(data => {
+            console.log("RESPUESTA DEL SERVIDOR TABLA PEDIDO");
+            console.log(data);
+
+            if (data.pedido_id) {
+
+                let nuevoObjPedidoProducto = {
+                    ...objPedidoProducto,
+                    pedido_id: data.pedido_id,
+                };
+
+                postPedidoProducto(nuevoObjPedidoProducto).then(data => {
+                    console.log("RESPUESTA DEL SERVIDOR TABLA PEDIDO_PRODUCTO");
+                    console.log(data);
+
+                    if (data.pedidoproducto_id) {
+
+                        const nuevoGlobalPedidos = [];
+
+                        console.log("RESET GLOBAL PEDIDOS");
+                        console.log(nuevoGlobalPedidos);
+
+                        dispatch({
+                            type: "FINALIZAR_PEDIDO",
+                            data: nuevoGlobalPedidos,
+                        });
+                    }
+
+                })
+
+            } else {
+                // error al procesar el pedido
+            }
+        });
+
+
+    };
+
+
 
     return (
         <ClienteContext.Provider value={{
             globalPedidos: state.globalPedidos,
             agregarProducto: agregarProducto,
             eliminarProducto: eliminarProducto,
+            finalizarPedido: finalizarPedido,
         }}>
             {props.children}
         </ClienteContext.Provider>

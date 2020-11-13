@@ -3,7 +3,7 @@ import ClienteContext from '../context/ClienteContext';
 
 const ClientePagoCarrito = () => {
 
-    const { globalPedidos } = useContext(ClienteContext);
+    const { globalPedidos, finalizarPedido } = useContext(ClienteContext);
     const [montoTotal, setMontoTotal] = useState(0);
 
     const montoTotalPedido = (globalPedidos) => {
@@ -17,12 +17,19 @@ const ClientePagoCarrito = () => {
         setMontoTotal(monto);
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        finalizarPedido();
+    }
+
+
+
     useEffect(() => {
         montoTotalPedido(globalPedidos);
-    });
+    }, [globalPedidos]);
 
     return (
-        <form action="">
+        <form onSubmit={handleSubmit}>
             <div className="contenido_pago">
                 <div className="titulo_pago">
                     <h5>MI PEDIDO</h5>
@@ -41,7 +48,12 @@ const ClientePagoCarrito = () => {
                 </div>
             </div>
             <div className="finalizar-pedido">
-                <button className="finalizar-pedido-boton">FINALIZAR PEDIDO</button>
+                <button
+                    className="finalizar-pedido-boton"
+                    type="submit"
+                >
+                    FINALIZAR PEDIDO
+                </button>
             </div>
         </form>
     )
