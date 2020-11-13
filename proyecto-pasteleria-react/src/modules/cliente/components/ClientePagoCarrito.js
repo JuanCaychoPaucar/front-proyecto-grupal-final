@@ -1,6 +1,26 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import ClienteContext from '../context/ClienteContext';
 
 const ClientePagoCarrito = () => {
+
+    const { globalPedidos } = useContext(ClienteContext);
+    const [montoTotal, setMontoTotal] = useState(0);
+
+    const montoTotalPedido = (globalPedidos) => {
+
+        let monto = 0;
+
+        globalPedidos.map(pedido => {
+            monto = monto + pedido.monto;
+        });
+
+        setMontoTotal(monto);
+    };
+
+    useEffect(() => {
+        montoTotalPedido(globalPedidos);
+    });
+
     return (
         <form action="">
             <div className="contenido_pago">
@@ -13,7 +33,7 @@ const ClientePagoCarrito = () => {
                     </div>
                     <div className="detalle">
                         <p>S/.</p>
-                        <p>1234.56</p>
+                        <p>{montoTotal}</p>
                     </div>
                 </div>
                 <div className="subtitulo_pago">

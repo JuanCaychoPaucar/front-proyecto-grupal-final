@@ -7,6 +7,11 @@ const ClienteReducer = (stateActual, action) => {
                 ...stateActual,
                 globalPedidos: [...action.data],
             }
+
+        case "ELIMINAR_PRODUCTO":
+            return {
+                globalPedidos: action.data,
+            }
     }
 };
 

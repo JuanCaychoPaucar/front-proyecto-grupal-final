@@ -6,6 +6,7 @@ const ClienteTablaCarrito = () => {
 
     const { globalPedidos } = useContext(ClienteContext);
 
+    console.log("GLOBAL PEDIDOS CALIENTE TABLA CARRITO");
     console.log(globalPedidos);
 
     return (

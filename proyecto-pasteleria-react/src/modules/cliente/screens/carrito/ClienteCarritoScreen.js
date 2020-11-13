@@ -8,6 +8,7 @@ import ClientePagoCarrito from '../../components/ClientePagoCarrito';
 import "./ClienteCarritoScreen.css";
 
 const ClienteCarritoScreen = () => {
+    
     return (
         <>
             <ClienteHeader pagina="CARRITO" />

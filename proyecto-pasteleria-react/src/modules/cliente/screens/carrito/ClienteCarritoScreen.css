@@ -99,9 +99,10 @@
 }
 
 .pedido-total-monto {
+  width: 120px;
   border: 1px solid black;
   background: var(--humo);
-  padding: 8px 20px;
+  padding: 8px 100px;
 }
 
 .procesar-pedido-boton {

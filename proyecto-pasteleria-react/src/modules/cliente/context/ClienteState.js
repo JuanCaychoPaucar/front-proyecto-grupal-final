@@ -39,7 +39,7 @@ const ClienteState = (props) => {
         globalPedidos: [],
     });
 
-    // CARRITO: AGREGAR PRODUCTO
+    // SCREEN PRODUCTOS: AGREGAR PRODUCTO
     const agregarProducto = (objProducto) => {
 
         // desestructurando state
@@ -87,11 +87,41 @@ const ClienteState = (props) => {
 
     };
 
+    // ELIMINAR PRODUCTO DE CARRITO
+    const eliminarProducto = (id) => {
+
+        console.log("id enviado");
+        console.log(id);
+
+        const { globalPedidos } = state;
+
+        let temporal = [...globalPedidos];
+
+        temporal = temporal.filter(pedido => {
+            if (pedido.producto_id == id) {
+                return undefined;
+            } else {
+                return pedido;
+            }
+        });
+
+        console.log("TEMPORAL");
+        console.log(temporal);
+
+        dispatch({
+            type: "ELIMINAR_PRODUCTO",
+            data: temporal,
+        });
+
+    };
+
+
 
     return (
         <ClienteContext.Provider value={{
             globalPedidos: state.globalPedidos,
             agregarProducto: agregarProducto,
+            eliminarProducto: eliminarProducto,
         }}>
             {props.children}
         </ClienteContext.Provider>
