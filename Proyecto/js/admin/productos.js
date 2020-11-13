@@ -1,18 +1,30 @@
 import { url_api } from "./variables.js";
 import { postProduct, putProduct, deleteProductById } from "./service/servicio-productos.js";
+import { categorias } from "./categorias.js";
 
+// Variables Producto form
 const tbody = document.getElementById("tbody-prod");
 const form = document.getElementById("formProd");
 const category = document.getElementById("inputCategory");
 const name = document.getElementById("inputName");
 const price = document.getElementById("inputPrice");
 const image = document.getElementById("inputImg");
-const btnAction = document.getElementById("btnAction");
+const btnAction = document.getElementById("btnAccion");
 
 let modo = "crear";
 let productos = [];
 let ProductoGlobal = {};
 
+const getProduct = () => {
+    fetch(`${url_api}/producto`).then((peticion) => {
+        peticion.json().then((data) => {
+            console.log(data);
+            productos = [...data];
+            dibujarTabla();
+        });
+    });
+};
+getProduct();
 
 form.onsubmit = (e) => {
     e.preventDefault();
@@ -34,14 +46,15 @@ form.onsubmit = (e) => {
             console.log(response);
             if (response.isConfirmed) {
                 let objProduct = {
-                    category: category.value.trim(),
-                    name: name.value.trim(),
-                    price: price.value.trim(),
-                    picture: image.value.trim(),
+                    categoria_id: category.value.trim(),
+                    producto_nom: name.value.trim(),
+                    producto_pre: price.value.trim(),
+                    producto_img: image.value.trim(),
+                    producto_estado: true,
                 };
                 postProduct(objProduct).then((peticion) => {
                     peticion.json().then((data) => {
-                        if (data.id) {
+                        if (data.producto_id) {
                             Swal.fire({
                                 title: "Hecho",
                                 text: "Registro creado exitosamente",
@@ -63,14 +76,20 @@ form.onsubmit = (e) => {
     } else {
         // Modo Editar
         let objProduct = {
-            id: ProductoGlobal.id,
-            category: ProductoGlobal.category,
-            name: ProductoGlobal.name,
-            price: ProductoGlobal.price,
-            picture: ProductoGlobal.picture,
+            producto_id: ProductoGlobal.producto_id,
+            categoria_id: category.value.trim(),
+            producto_nom: name.value.trim(),
+            producto_pre: price.value.trim(),
+            producto_img: image.value.trim(),
         };
         putProduct(objProduct).then((peticion) => {
             peticion.json().then((data) => {
+                Swal.fire({
+                    title: "Hecho!",
+                    text: "Registro guardado exitosamente!",
+                    icon: "success",
+                    timer: 1500,
+                });
                 console.log(data);
                 getProduct();
                 modoCrear();
@@ -83,17 +102,21 @@ const modoCrear = () => {
     ProductoGlobal = {};
     modo = "crear";
     btnAction.innerText = "Crear Producto";
+    category.value = "";
     name.value = "";
+    price.value = "";
+    image.value = "";
 };
 
 const modoEditar = (producto) => {
     ProductoGlobal = { ...producto };
+    console.log(ProductoGlobal);
     modo = "editar";
     btnAction.innerText = "Guardar Cambios";
-    category.value = ProductoGlobal.category;
-    name.value = ProductoGlobal.name;
-    price.value = ProductoGlobal.price;
-    image.value = ProductoGlobal.picture;
+    category.value = ProductoGlobal.categoria_id;
+    name.value = ProductoGlobal.producto_nom;
+    price.value = ProductoGlobal.producto_pre;
+    image.value = ProductoGlobal.producto_img;
 };
 
 const eliminar = (id) => {
@@ -106,7 +129,7 @@ const eliminar = (id) => {
         if (rpta.isConfirmed) {
             deleteProductById(id).then((peticion) => {
                 peticion.json().then((data) => {
-                    if (data.id) {
+                    if (data.producto_id) {
                         Swal.fire({
                             title: "¡Éxito!",
                             text: "Registro eliminado exitosamente",
@@ -127,13 +150,20 @@ const dibujarTabla = () => {
     tbody.innerHTML = "";
     productos.forEach((Producto) => {
         let tr = document.createElement("tr");
-        tr.innerHTML = `<td>${Producto.id}</td>
-                        <td>${Producto.category}</td>
-                        <td>${Producto.name}</td>
-                        <td>${Producto.price}</td>
+        let nombre_categoria = "prox";
+        if (categorias.categoria_id) {
+            nombre_categoria = categorias.categoria_nom;
+            print(categorias);
+        }
+
+        tr.innerHTML = `<td>${Producto.producto_id}</td>
+                        <td>${nombre_categoria}</td>
+                        <td>${Producto.producto_nom}</td>
+                        <td>${Producto.producto_pre}</td>
                         <td>
-                            <img src="${Producto.picture}" alt="" width="150"/>
-                        </td>`;
+                            <img src="${Producto.producto_img}" alt="" width="150" height="100"/>
+                        </td>
+                        <td>${Producto.producto_estado}</td>`;
 
         let tdBotones = document.createElement("td");
 
@@ -148,7 +178,7 @@ const dibujarTabla = () => {
         btnEliminar.classList.add("btn", "btn-danger");
         btnEliminar.innerText = "Eliminar";
         btnEliminar.onclick = () => {
-            eliminar(Producto.Producto_id);
+            eliminar(Producto.producto_id);
         };
 
         tdBotones.appendChild(btnEditar);
@@ -157,15 +187,16 @@ const dibujarTabla = () => {
         tr.appendChild(tdBotones);
         tbody.appendChild(tr);
     });
-};
 
-const getProduct = () => {
-    fetch(`${url_api}/productos`).then((peticion) => {
-        peticion.json().then((data) => {
-            console.log(data);
-            productos = [...data];
-            dibujarTabla();
-        });
+    // Función para hacer dinámico el select 
+    categorias.forEach((categoria) => {
+        console.log(categoria);
+        let option = document.createElement("option");
+        option.value = categoria.categoria_id;
+        option.innerText = categoria.categoria_nom;
+
+        category.appendChild(option);
     });
 };
-getProduct();
+
+
