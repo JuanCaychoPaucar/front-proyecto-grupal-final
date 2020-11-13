@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import ClienteContext from '../context/ClienteContext';
-import ClienteListaFormCheckProducto from './ClienteListaFormCheckProducto';
 
 const ClienteListaCardFormCheckProducto = ({ proCat }) => {
 

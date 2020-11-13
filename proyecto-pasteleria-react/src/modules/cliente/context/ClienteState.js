@@ -1,13 +1,12 @@
-import React, { useReducer } from 'react'
-import { getCategorias } from '../../../services/categoriaService';
-import { getProductos } from '../../../services/productoService';
+import React, { useReducer } from 'react';
 import ClienteContext from './ClienteContext';
 import ClienteReducer from './ClienteReducer';
 import moment from "moment";
 import { postPedido } from '../../../services/pedidoService';
 import { postPedidoProducto } from '../../../services/pedidoproductoService';
 
-// item del objeto producto
+// item del objeto producto. SOLO ES INFORMATIVO
+/*
 const productoItems = {
     "producto_id": 1,
     "categoria_id": 1,
@@ -17,8 +16,10 @@ const productoItems = {
     "producto_img": "producto_img post",
     "producto_estado": true
 };
+*/
 
-// items del arreglo de pedidos
+// items del arreglo de pedidos. SOLO ES INFORMATIVO
+/*
 const arregloPedido = [
     {
         "producto_id": 1,
@@ -33,8 +34,10 @@ const arregloPedido = [
         "monto": 123,
     }
 ];
+*/
 
-// tabla pedido
+// tabla pedido. SOLO ES INFORMATIVO
+/*
 const pedido = {
     "pedido_id": "1",
     "cliente_id": 1,
@@ -47,7 +50,7 @@ const pedido = {
     "pedido_despacho": false,
     "pedido_entregado": false
 }
-
+*/
 
 
 const ClienteState = (props) => {

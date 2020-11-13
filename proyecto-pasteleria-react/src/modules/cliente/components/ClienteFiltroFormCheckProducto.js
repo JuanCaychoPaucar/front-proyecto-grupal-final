@@ -1,12 +1,8 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React from 'react';
 
 let temporal = [];
 
 const ClienteFiltroFormCheckProducto = ({ categoria, filtradoCategorias, modificarProductoCategoria, arregloFiltrado, arregloFiltro }) => {
-
-    const [seleccion, setSeleccion] = useState([]);
-    // const [contador, setContador] = useState(0);
 
     const handleChange = (e) => {
         let valor = e.target.type === "checkbox" ? e.target.checked : e.target.value;
@@ -44,26 +40,9 @@ const ClienteFiltroFormCheckProducto = ({ categoria, filtradoCategorias, modific
 
     };
 
-    // useEffect(() => {
-    //     console.log("seleccion");
-    //     console.log(seleccion);
-
-    //     if(seleccion.length !== 0){
-
-    //         let nuevo = filtradoCategorias(seleccion);
-
-    //         console.log("nuevo");
-    //         console.log(nuevo);
-    //         modificarProductoCategoria(nuevo);
-    //     }
-    // }, [seleccion]);
-
-
-
-
     return (
         <div className="form-check">
-            {/* <input type="checkbox" className="form-check-input" name="" id="checkActivo" value="checkedValue" /> */}
+            
             <input
                 type="checkbox"
                 className="form-check-input"

@@ -2,9 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Button, Carousel } from 'react-bootstrap';
-import { getCategorias } from '../../../services/categoriaService';
 import { arregloSinRepetir } from '../../../services/numerosAleatorios';
-import { getProductoById, getProductos } from '../../../services/productoService';
 
 import logo from "./../../../assets/img/logo_transparente.png";
 
@@ -25,7 +23,7 @@ const ClienteCarruselIndex = ({ arregloProductos, arregloCategorias }) => {
         let temporal = [];
 
         for (let i = 0; i < arregloCategorias.length; i++) {
-            const resultado = filtradoProductos.filter((pro) => {
+            filtradoProductos.filter((pro) => {
                 if (pro.categoria_id == arregloCategorias[i].categoria_id) {
                     let obj = { ...pro, categoria_nombre: arregloCategorias[i].categoria_nom }
                     temporal.push(obj);

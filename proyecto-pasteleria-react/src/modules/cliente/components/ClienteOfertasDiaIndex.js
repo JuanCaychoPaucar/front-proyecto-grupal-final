@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { arregloSinRepetir } from '../../../services/numerosAleatorios';
-import { getProductoById } from '../../../services/productoService';
 import ClienteOfertasDiaCardIndex from './ClienteOfertasDiaCardIndex';
 
 const ClienteOfertasDiaIndex = ({ arregloProductos, arregloCategorias }) => {
@@ -18,7 +17,7 @@ const ClienteOfertasDiaIndex = ({ arregloProductos, arregloCategorias }) => {
         let temporal = [];
 
         for (let i = 0; i < arregloCategorias.length; i++) {
-            const resultado = filtradoProductos.filter((pro) => {
+            filtradoProductos.filter((pro) => {
                 if (pro.categoria_id == arregloCategorias[i].categoria_id) {
                     let obj = { ...pro, categoria_nombre: arregloCategorias[i].categoria_nom }
                     temporal.push(obj);
