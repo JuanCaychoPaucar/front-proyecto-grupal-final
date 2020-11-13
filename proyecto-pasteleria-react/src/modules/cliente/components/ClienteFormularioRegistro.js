@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { postUsuario } from '../../../services/usuarioService';
+import Swal from "sweetalert2";
+import { getClienteByDNI, postCliente } from '../../../services/clienteService';
+import { getUsuarioByEmail, postUsuario } from '../../../services/usuarioService';
 
 const formularioVacio = {
     cliente_nom: "",
@@ -28,7 +30,7 @@ const ClienteFormularioRegistro = () => {
         let distrito = formulario.cliente_distrito_nombre;
 
         // recuperamos el nombre del distrito
-        if(e.target.type === "select-one"){
+        if (e.target.type === "select-one") {
             distrito = e.target.options[e.target.selectedIndex].text;
         }
 
@@ -37,16 +39,108 @@ const ClienteFormularioRegistro = () => {
         setFormulario({
             ...formulario,
             [e.target.name]: valor,
-            cliente_distrito_nombre : distrito,
+            cliente_distrito_nombre: distrito,
         });
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // recuperamos los datos del formulario
         const form = { ...formulario };
-        console.log(form);
+
+        // verificar campos vacios
+        if (
+            (form.cliente_nom.trim() === "") |
+            (form.cliente_apepat.trim() === "") |
+            (form.cliente_apemat.trim() === "") |
+            (form.cliente_dni.trim() === "") |
+            (form.cliente_tel.trim() === "") |
+            (form.cliente_dir.trim() === "") |
+            (form.cliente_distrito == "0") |
+            (form.usuario_email.trim() === "") |
+            (form.usuario_password.trim() === "") |
+            (form.usuario_password_confirm.trim() === "")
+        ) {
+            Swal.fire({
+                title: "Que pasa mi chamo!!!",
+                text: "Los campos no deben estar vacíos",
+                icon: "warning",
+            });
+            return;
+        }
+
+        // verificar longitud del campo DNI
+        if (form.cliente_dni.trim().length < 8) {
+            Swal.fire({
+                title: "Que pasa mi chamo!!!",
+                text: "El DNI debe contener 8 digitos",
+                icon: "warning",
+            });
+            return;
+        }
+
+        // verificar que las contraseñas coincidan
+        if (form.usuario_password.trim() !== form.usuario_password_confirm.trim()) {
+            Swal.fire({
+                title: "Que pasa mi chamo!!!",
+                text: "Las contraseñas deben ser iguales",
+                icon: "warning",
+            });
+            return;
+        }
+
+        // validar email
+        let mailformat = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+        if (!form.usuario_email.match(mailformat)) {
+            Swal.fire({
+                title: "Que pasa mi chamo!!!",
+                text: "Debes ingresar una direccion de correo valida",
+                icon: "warning",
+            });
+            return;
+        }
+
+        // verificar si ya existe un email registrado
+        let usuarioEmail = [];
+        usuarioEmail = await getUsuarioByEmail(form.usuario_email).then(data => {
+            if (data !== null) {
+                let busqueda = data.filter((email) => {
+                    if (email.usuario_email == form.usuario_email) {
+                        return email;
+                    }
+                    return undefined;
+                });
+                return busqueda;
+            }
+        });
+
+        console.log("email");
+        console.log(usuarioEmail.length);
+
+        if (usuarioEmail.length > 0) {
+            Swal.fire({
+                title: "Que pasa mi chamo!!!",
+                text: "El email ingresado ya se encuentra registrado",
+                icon: "warning",
+            });
+            return;
+        }
+        // verificar si ya existe un DNI registrado en la tabla clientes
+        let clienteDNI = await getClienteByDNI(form.cliente_dni).then(data => data);
+
+        if (clienteDNI.length > 0) {
+            Swal.fire({
+                title: "Que pasa mi chamo!!!",
+                text: "El DNI ya se encuentra registrado. Debe iniciar sesion",
+                icon: "warning",
+            });
+            return;
+        }
+
+
+        // si todo esta correcto, se realizara el registro
 
         const dataUsuario = {
             tipousuario_id: 1,
@@ -56,7 +150,7 @@ const ClienteFormularioRegistro = () => {
         }
 
         const dataCliente = {
-            usuario_id: 2,
+            usuario_id: 0,
             cliente_nom: form.cliente_nom,
             cliente_apepat: form.cliente_apepat,
             cliente_apemat: form.cliente_apemat,
@@ -66,33 +160,44 @@ const ClienteFormularioRegistro = () => {
             cliente_estado: true,
         }
 
-        // console.log("DATA USUARIO");
-        // console.log(dataUsuario);
+        // debemos crear primero el usuario
+        postUsuario(dataUsuario).then(rpta => {
+            console.log("USUARIO CREADO");
 
-        // console.log("DATA CLIENTE");
-        // console.log(dataCliente);
+            if (rpta.usuario_id) {
 
-        // creamos el usuario
-        postUsuario(dataUsuario).then(rpta =>{
-            
+                let objCliente = {
+                    ...dataCliente,
+                    usuario_id: rpta.usuario_id,
+                };
+
+                // si todo esta correcto, creamos el cliente
+                postCliente(objCliente).then(data => {
+                    if (data.cliente_id) {
+                        // limpiamos el formulario
+                        setFormulario(formularioVacio);
+
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Registro completo',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+                })
+            } else {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Error al registrar',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
         })
 
-
-
-
-
-
-
-
-
-
-
     }
-
-
-
-
-
 
 
     return (
