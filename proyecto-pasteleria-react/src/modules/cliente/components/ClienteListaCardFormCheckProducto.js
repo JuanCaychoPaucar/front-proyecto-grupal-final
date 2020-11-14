@@ -26,7 +26,7 @@ const ClienteListaCardFormCheckProducto = ({ proCat }) => {
             actualizarC(proCat.cantidad);
             setModoBoton(true);
         }
-        console.log(pedidoExistente);
+        // console.log(pedidoExistente);
     };
 
     useEffect(() => {

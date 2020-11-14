@@ -3,8 +3,8 @@ import ClientePaginacion from '../../../components/ClientePaginacion';
 import ClienteListaCardFormCheckProducto from './ClienteListaCardFormCheckProducto';
 
 const ClienteListaFormCheckProducto = ({ productoCategoria }) => {
-    console.log("producto categoria");
-    console.log(productoCategoria);
+    // console.log("producto categoria");
+    // console.log(productoCategoria);
 
     return (
 

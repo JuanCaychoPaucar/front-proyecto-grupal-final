@@ -23,7 +23,14 @@ const ClienteReducer = (stateActual, action) => {
         case "INICIO_SESION":
             return {
                 ...stateActual,
-                clienteActivo: { ...action.data },
+                clienteActivo: { ...action.data.cliente },
+                token: action.data.token,
+            }
+
+        case "CERRAR_SESION":
+            return {
+                ...stateActual,
+                clienteActivo: action.data,
             }
 
         case "BOTON_PROCESAR":

@@ -36,7 +36,7 @@ const ClienteTablaItemCarrito = ({ pedido }) => {
             pedido = { ...pedidoExistente };
             actualizarC(pedido.cantidad);
         }
-        console.log(pedidoExistente);
+        // console.log(pedidoExistente);
         
     };
 

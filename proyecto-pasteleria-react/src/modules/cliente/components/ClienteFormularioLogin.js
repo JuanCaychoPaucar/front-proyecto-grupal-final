@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Swal from "sweetalert2";
 import { getClienteById } from '../../../services/clienteService';
 import { getUsuarioByEmail } from '../../../services/usuarioService';
@@ -13,6 +14,8 @@ const ClienteFormularioLogin = () => {
 
     const { clienteActivo, inicioSesionCliente } = useContext(ClienteContext);
     const [formulario, setFormulario] = useState(formularioVacio);
+
+    const history = useHistory();
 
     const handleChange = (e) => {
 
@@ -36,8 +39,8 @@ const ClienteFormularioLogin = () => {
         // recuperamos los datos del formulario
         const form = { ...formulario };
 
-        console.log("FORMULARIO RECUPERADO");
-        console.log(form);
+        // console.log("FORMULARIO RECUPERADO");
+        // console.log(form);
 
         // verificar campos vacios
         if (
@@ -78,8 +81,8 @@ const ClienteFormularioLogin = () => {
             }
         });
 
-        console.log("VERIFICACION EMAIL");
-        console.log(usuarioEmail);
+        // console.log("VERIFICACION EMAIL");
+        // console.log(usuarioEmail);
 
         if (usuarioEmail.length === 0) {
             Swal.fire({
@@ -116,12 +119,22 @@ const ClienteFormularioLogin = () => {
         const clienteLogueado = await getClienteById(usuarioEmail[0].usuario_id).then(data => data);
 
         if (clienteLogueado.cliente_id) {
-            console.log("USUARIO LOGUEADO");
-            console.log(clienteLogueado);
+            // console.log("USUARIO LOGUEADO");
+            // console.log(clienteLogueado);
 
             inicioSesionCliente(clienteLogueado);
-            console.log("actualizado state inicio sesion");
-            console.log(clienteActivo);
+            // console.log("actualizado state inicio sesion");
+            // console.log(clienteActivo);
+
+            // if (localStorage.getItem("token")) {
+
+            //     let data = localStorage.getItem("token");
+            //     console.log("contenido token");
+            //     console.log(data);
+            // }
+
+            history.push("/");
+
         }
 
 

@@ -1,10 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import ClienteContext from '../context/ClienteContext';
 
 const ClienteProcesarPedido = () => {
 
-    const { globalPedidos, estadoBotonProcesar, botonProcesar } = useContext(ClienteContext);
+    const { globalPedidos, estadoBotonProcesar, botonProcesar, clienteActivo } = useContext(ClienteContext);
     const [montoTotal, setMontoTotal] = useState(0);
+
+    const history = useHistory();
 
     const montoTotalPedido = (globalPedidos) => {
 
@@ -45,7 +48,9 @@ const ClienteProcesarPedido = () => {
                         type="button"
                         disabled={estadoBotonProcesar}
                         onClick={() => {
-
+                            if (clienteActivo === null){
+                                history.push("/login");
+                            }
                         }}
                     >
                         PROCESAR PEDIDO

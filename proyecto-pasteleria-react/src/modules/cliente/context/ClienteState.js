@@ -4,6 +4,7 @@ import ClienteReducer from './ClienteReducer';
 import moment from "moment";
 import { postPedido } from '../../../services/pedidoService';
 import { postPedidoProducto } from '../../../services/pedidoproductoService';
+import Swal from "sweetalert2";
 
 // item del objeto producto. SOLO ES INFORMATIVO
 /*
@@ -70,7 +71,7 @@ const ClienteState = (props) => {
 
         // verificar si existe un pedido para el producto seleccionado
         const pedidoActual = globalPedidos.find(objPedido => objPedido.producto_id === objProducto.producto_id);
-        console.log(pedidoActual);
+        // console.log(pedidoActual);
 
         // preguntamos si el pedido actual existe, es decir, que la mesa global seleccionada tenga un pedido previamnete en nuestro arreglo "globalPedidos"
         if (pedidoActual) {
@@ -113,8 +114,8 @@ const ClienteState = (props) => {
     // ELIMINAR PRODUCTO DE CARRITO
     const eliminarProducto = (id) => {
 
-        console.log("id enviado");
-        console.log(id);
+        // console.log("id enviado");
+        // console.log(id);
 
         const { globalPedidos } = state;
 
@@ -128,8 +129,8 @@ const ClienteState = (props) => {
             }
         });
 
-        console.log("TEMPORAL");
-        console.log(temporal);
+        // console.log("TEMPORAL");
+        // console.log(temporal);
 
         dispatch({
             type: "ELIMINAR_PRODUCTO",
@@ -178,13 +179,13 @@ const ClienteState = (props) => {
             pedidoproducto_items: [...pedidoProductoItems],
         }
 
-        console.log("objeto pedido producto");
-        console.log(objPedidoProducto);
+        // console.log("objeto pedido producto");
+        // console.log(objPedidoProducto);
 
 
         postPedido(objPedido).then(data => {
-            console.log("RESPUESTA DEL SERVIDOR TABLA PEDIDO");
-            console.log(data);
+            // console.log("RESPUESTA DEL SERVIDOR TABLA PEDIDO");
+            // console.log(data);
 
             if (data.pedido_id) {
 
@@ -194,20 +195,28 @@ const ClienteState = (props) => {
                 };
 
                 postPedidoProducto(nuevoObjPedidoProducto).then(data => {
-                    console.log("RESPUESTA DEL SERVIDOR TABLA PEDIDO_PRODUCTO");
-                    console.log(data);
+                    // console.log("RESPUESTA DEL SERVIDOR TABLA PEDIDO_PRODUCTO");
+                    // console.log(data);
 
                     if (data.pedidoproducto_id) {
 
                         const nuevoGlobalPedidos = [];
 
-                        console.log("RESET GLOBAL PEDIDOS");
-                        console.log(nuevoGlobalPedidos);
+                        // console.log("RESET GLOBAL PEDIDOS");
+                        // console.log(nuevoGlobalPedidos);
 
                         dispatch({
                             type: "FINALIZAR_PEDIDO",
                             data: nuevoGlobalPedidos,
                         });
+
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Su pedido a sido realizado correctamente',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     }
 
                 })
@@ -223,16 +232,31 @@ const ClienteState = (props) => {
 
     // CLIENTE ACTIVO
     const inicioSesionCliente = (objCliente) => {
-        console.log("state cliente");
-        console.log(objCliente);
+        // console.log("state cliente");
+        // console.log(objCliente);
 
         let cliente = { ...objCliente };
 
+        let token = true;
+
+        localStorage.setItem("token", token);
+
         dispatch({
             type: "INICIO_SESION",
-            data: cliente,
+            data: {
+                cliente,
+                token: token,
+            }
         });
 
+    };
+
+    // CERRAR SESION
+    const cerrarSesionCliente = () => {
+        dispatch({
+            type: "CERRAR_SESION",
+            data: null,
+        });
     };
 
 
@@ -261,6 +285,7 @@ const ClienteState = (props) => {
             estadoBotonProcesar: state.estadoBotonProcesar,
             estadoBotonFinalizarPedido: state.estadoBotonFinalizarPedido,
             inicioSesionCliente: inicioSesionCliente,
+            cerrarSesionCliente: cerrarSesionCliente,
             agregarProducto: agregarProducto,
             eliminarProducto: eliminarProducto,
             finalizarPedido: finalizarPedido,

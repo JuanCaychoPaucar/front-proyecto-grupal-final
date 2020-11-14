@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Swal from "sweetalert2";
 import { getClienteByDNI, postCliente } from '../../../services/clienteService';
 import { getUsuarioByEmail, postUsuario } from '../../../services/usuarioService';
@@ -20,6 +21,8 @@ const formularioVacio = {
 const ClienteFormularioRegistro = () => {
 
     const [formulario, setFormulario] = useState(formularioVacio);
+
+    const history = useHistory();
 
     const handleChange = (e) => {
 
@@ -116,8 +119,8 @@ const ClienteFormularioRegistro = () => {
             }
         });
 
-        console.log("email");
-        console.log(usuarioEmail.length);
+        // console.log("email");
+        // console.log(usuarioEmail.length);
 
         if (usuarioEmail.length > 0) {
             Swal.fire({
@@ -162,7 +165,7 @@ const ClienteFormularioRegistro = () => {
 
         // debemos crear primero el usuario
         postUsuario(dataUsuario).then(rpta => {
-            console.log("USUARIO CREADO");
+            // console.log("USUARIO CREADO");
 
             if (rpta.usuario_id) {
 
@@ -184,6 +187,8 @@ const ClienteFormularioRegistro = () => {
                             showConfirmButton: false,
                             timer: 1500
                         })
+
+                        history.push("/login");
                     }
                 })
             } else {
