@@ -63,7 +63,7 @@ const ClienteFormularioRegistro = () => {
             (form.usuario_password_confirm.trim() === "")
         ) {
             Swal.fire({
-                title: "Que pasa mi chamo!!!",
+                title: "Upss!!!",
                 text: "Los campos no deben estar vacíos",
                 icon: "warning",
             });
@@ -73,7 +73,7 @@ const ClienteFormularioRegistro = () => {
         // verificar longitud del campo DNI
         if (form.cliente_dni.trim().length < 8) {
             Swal.fire({
-                title: "Que pasa mi chamo!!!",
+                title: "Upss!!!",
                 text: "El DNI debe contener 8 digitos",
                 icon: "warning",
             });
@@ -83,7 +83,7 @@ const ClienteFormularioRegistro = () => {
         // verificar que las contraseñas coincidan
         if (form.usuario_password.trim() !== form.usuario_password_confirm.trim()) {
             Swal.fire({
-                title: "Que pasa mi chamo!!!",
+                title: "Upss!!!",
                 text: "Las contraseñas deben ser iguales",
                 icon: "warning",
             });
@@ -95,7 +95,7 @@ const ClienteFormularioRegistro = () => {
 
         if (!form.usuario_email.match(mailformat)) {
             Swal.fire({
-                title: "Que pasa mi chamo!!!",
+                title: "Upss!!!",
                 text: "Debes ingresar una direccion de correo valida",
                 icon: "warning",
             });
@@ -121,7 +121,7 @@ const ClienteFormularioRegistro = () => {
 
         if (usuarioEmail.length > 0) {
             Swal.fire({
-                title: "Que pasa mi chamo!!!",
+                title: "Upss!!!",
                 text: "El email ingresado ya se encuentra registrado",
                 icon: "warning",
             });
@@ -132,7 +132,7 @@ const ClienteFormularioRegistro = () => {
 
         if (clienteDNI.length > 0) {
             Swal.fire({
-                title: "Que pasa mi chamo!!!",
+                title: "Upss!!!",
                 text: "El DNI ya se encuentra registrado. Debe iniciar sesion",
                 icon: "warning",
             });
@@ -446,10 +446,7 @@ const ClienteFormularioRegistro = () => {
 
 
                 {/* BOTON REGISTRO */}
-                <button
-                    className="btn btn-outline-success mb-3"
-                    type="submit"
-                >Registrarse</button>
+                <button className="btn btn-outline-success mb-3" type="submit">Registrarse</button>
             </div>
         </form>
     )

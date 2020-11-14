@@ -3,8 +3,9 @@ import ClienteContext from '../context/ClienteContext';
 
 const ClientePagoCarrito = () => {
 
-    const { globalPedidos, finalizarPedido } = useContext(ClienteContext);
+    const { globalPedidos, finalizarPedido, estadoBotonProcesar, estadoBotonFinalizarPedido, botonFinalizar, clienteActivo } = useContext(ClienteContext);
     const [montoTotal, setMontoTotal] = useState(0);
+
 
     const montoTotalPedido = (globalPedidos) => {
 
@@ -22,11 +23,18 @@ const ClientePagoCarrito = () => {
         finalizarPedido();
     }
 
-
-
     useEffect(() => {
         montoTotalPedido(globalPedidos);
     }, [globalPedidos]);
+
+
+    useEffect(() => {
+        if (estadoBotonProcesar === false && clienteActivo !== null) {
+            botonFinalizar(false);
+        } else {
+            botonFinalizar(true);
+        }
+    }, [estadoBotonProcesar, clienteActivo]);
 
     return (
         <form onSubmit={handleSubmit}>
@@ -49,7 +57,8 @@ const ClientePagoCarrito = () => {
             </div>
             <div className="finalizar-pedido">
                 <button
-                    className="finalizar-pedido-boton"
+                    className={estadoBotonFinalizarPedido ? "finalizar-pedido-boton boton-finalizar" : "finalizar-pedido-boton"}
+                    disabled={estadoBotonFinalizarPedido}
                     type="submit"
                 >
                     FINALIZAR PEDIDO

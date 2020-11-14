@@ -57,6 +57,9 @@ const ClienteState = (props) => {
 
     const [state, dispatch] = useReducer(ClienteReducer, {
         globalPedidos: [],
+        clienteActivo: null,
+        estadoBotonProcesar: true,
+        estadoBotonFinalizarPedido: true,
     });
 
     // SCREEN PRODUCTOS: AGREGAR PRODUCTO
@@ -218,13 +221,51 @@ const ClienteState = (props) => {
     };
 
 
+    // CLIENTE ACTIVO
+    const inicioSesionCliente = (objCliente) => {
+        console.log("state cliente");
+        console.log(objCliente);
+
+        let cliente = { ...objCliente };
+
+        dispatch({
+            type: "INICIO_SESION",
+            data: cliente,
+        });
+
+    };
+
+
+    // ESTADO BOTON PROCESAR PEDIDO
+    const botonProcesar = (estadoProcesar) => {
+        dispatch({
+            type: "BOTON_PROCESAR",
+            data: estadoProcesar,
+        });
+    };
+
+    // ESTADO BOTON FINALIZAR PEDIDO
+    const botonFinalizar = (estadoFinalizar) => {
+        dispatch({
+            type: "BOTON_FINALIZAR",
+            data: estadoFinalizar,
+        });
+    };
+
+
 
     return (
         <ClienteContext.Provider value={{
             globalPedidos: state.globalPedidos,
+            clienteActivo: state.clienteActivo,
+            estadoBotonProcesar: state.estadoBotonProcesar,
+            estadoBotonFinalizarPedido: state.estadoBotonFinalizarPedido,
+            inicioSesionCliente: inicioSesionCliente,
             agregarProducto: agregarProducto,
             eliminarProducto: eliminarProducto,
             finalizarPedido: finalizarPedido,
+            botonProcesar: botonProcesar,
+            botonFinalizar: botonFinalizar,
         }}>
             {props.children}
         </ClienteContext.Provider>

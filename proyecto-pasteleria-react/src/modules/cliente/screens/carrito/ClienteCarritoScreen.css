@@ -116,6 +116,11 @@
   font-size: 14px;
 }
 
+.boton-desactivado {
+  background-color: var(--desactivado);
+}
+
+
 /*  */
 .pago {
   flex: 1;
@@ -175,6 +180,10 @@
   height: 40px;
   font-weight: 700;
   font-size: 14px;
+}
+
+.boton-finalizar {
+  background-color: var(--desactivado);
 }
 
 /* MEDIA */

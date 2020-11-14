@@ -3,7 +3,7 @@ import ClienteContext from '../context/ClienteContext';
 
 const ClienteListaCardFormCheckProducto = ({ proCat }) => {
 
-    const { agregarProducto, globalPedidos } = useContext(ClienteContext);
+    const { agregarProducto, globalPedidos, clienteActivo } = useContext(ClienteContext);
 
     const [c, actualizarC] = useState(1);
     const [modoBoton, setModoBoton] = useState(false);
@@ -19,6 +19,7 @@ const ClienteListaCardFormCheckProducto = ({ proCat }) => {
     };
 
     const verificar = () => {
+        
         const pedidoExistente = globalPedidos.find(objPedido => objPedido.producto_id === proCat.producto_id);
         if (pedidoExistente) {
             proCat = { ...pedidoExistente };
@@ -30,7 +31,7 @@ const ClienteListaCardFormCheckProducto = ({ proCat }) => {
 
     useEffect(() => {
         verificar();
-    }, [modoBoton])
+    }, [modoBoton, clienteActivo])
 
 
     return (

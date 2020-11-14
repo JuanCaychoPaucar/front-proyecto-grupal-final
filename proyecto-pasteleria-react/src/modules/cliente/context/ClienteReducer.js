@@ -10,12 +10,32 @@ const ClienteReducer = (stateActual, action) => {
 
         case "ELIMINAR_PRODUCTO":
             return {
+                ...stateActual,
                 globalPedidos: action.data,
             }
 
         case "FINALIZAR_PEDIDO":
             return {
+                ...stateActual,
                 globalPedidos: [...action.data],
+            }
+
+        case "INICIO_SESION":
+            return {
+                ...stateActual,
+                clienteActivo: { ...action.data },
+            }
+
+        case "BOTON_PROCESAR":
+            return {
+                ...stateActual,
+                estadoBotonProcesar: action.data,
+            }
+
+        case "BOTON_FINALIZAR":
+            return {
+                ...stateActual,
+                estadoBotonFinalizarPedido: action.data,
             }
     }
 };
